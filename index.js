@@ -189,7 +189,7 @@ app.put('/api/admin/site-data', checkAuth, (req, res) => {
 
 /* ================= STATIC FILES ================= */
 // INI KUNCI UTAMA (FIX NOT FOUND)
-app.use(express.static(path.join(__dirname, '..')));
+app.use(express.static(__dirname));
 
 /* ================= TEST ROUTE ================= */
 app.get('/test', (req, res) => {
