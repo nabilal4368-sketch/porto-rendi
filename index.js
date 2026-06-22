@@ -4,6 +4,7 @@ const express = require('express');
 const cors = require('cors');
 
 const app = express();
+
 app.use(cors());
 app.use(express.json({ limit: '1mb' }));
 
@@ -126,39 +127,47 @@ function ensureDataFile() {
 
 ensureDataFile();
 
+/* ================= DATA FUNCTIONS ================= */
 function loadData() {
-  const raw = fs.readFileSync(DATA_PATH, 'utf8');
-  return JSON.parse(raw);
+  return JSON.parse(fs.readFileSync(DATA_PATH, 'utf8'));
 }
 
 function saveData(data) {
   fs.writeFileSync(DATA_PATH, JSON.stringify(data, null, 2), 'utf8');
 }
 
+/* ================= AUTH ================= */
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'rendi!!!';
 
 function checkAuth(req, res, next) {
   const authHeader = req.headers['authorization'] || '';
-  if (!authHeader.startsWith('Bearer ')) return res.status(401).json({ message: 'Unauthorized' });
-  const token = authHeader.slice('Bearer '.length);
-  if (token !== ADMIN_PASSWORD) return res.status(403).json({ message: 'Forbidden' });
-  return next();
+
+  if (!authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
+  const token = authHeader.replace('Bearer ', '');
+
+  if (token !== ADMIN_PASSWORD) {
+    return res.status(403).json({ message: 'Forbidden' });
+  }
+
+  next();
 }
 
-// Public API (used by index.html)
+/* ================= API ================= */
 app.get('/api/site-data', (req, res) => {
   try {
     res.json(loadData());
-  } catch (e) {
+  } catch {
     res.status(500).json({ message: 'Failed to load data' });
   }
 });
 
-// Admin API
 app.get('/api/admin/site-data', checkAuth, (req, res) => {
   try {
     res.json(loadData());
-  } catch (e) {
+  } catch {
     res.status(500).json({ message: 'Failed to load data' });
   }
 });
@@ -166,34 +175,28 @@ app.get('/api/admin/site-data', checkAuth, (req, res) => {
 app.put('/api/admin/site-data', checkAuth, (req, res) => {
   try {
     const data = req.body;
-    if (!data || typeof data !== 'object') return res.status(400).json({ message: 'Invalid payload' });
+
+    if (!data || typeof data !== 'object') {
+      return res.status(400).json({ message: 'Invalid payload' });
+    }
 
     saveData(data);
     res.json({ ok: true });
-  } catch (e) {
+  } catch {
     res.status(500).json({ message: 'Failed to save data' });
   }
 });
 
-// serve index.html/assets (public) and admin.html from /server
-app.use(express.static(__dirname));
+/* ================= STATIC FILES ================= */
+// INI KUNCI UTAMA (FIX NOT FOUND)
 app.use(express.static(path.join(__dirname, '..')));
 
-
-// serve index.html/assets (public) and admin.html from /server
-app.use(express.static(__dirname));
-app.use(express.static(path.join(__dirname, '..')));
-
-// TEST ROUTE
+/* ================= TEST ROUTE ================= */
 app.get('/test', (req, res) => {
   res.send('SERVER HIDUP');
 });
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'index.html'));
-});
-
+/* ================= START SERVER ================= */
 app.listen(PORT, () => {
-  console.log(`Admin backend running on http://localhost:${PORT}`);
+  console.log(`Server running on http://localhost:${PORT}`);
 });
-
