@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfolio Rendy Wijaya Pranata</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+    <div class="spinner"></div>
+    <h3>Loading Portfolio...</h3>
+</div>
+
+<!-- NAV -->
+<nav>
+    <h3>
+        <a href="#" id="brandAdminBtn" style="color: rgba(255,255,255,.92); text-decoration:none;">Rendy Wijaya Pranata</a>
+    </h3>
+
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+
+    <ul id="navMenu">
+        <li id="adminMenuItem" style="display:none;"><a href="/admin.html">Admin</a></li>
+
+        <li><a href="#about">About</a></li>
+        <li><a href="#project">Project</a></li>
+
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+
+    <div class="hero-inner">
+
+        <img src="img/potomerah.png" class="profile" data-aos="zoom-in" alt="Profile Rendy Wijaya Pranata">
+
+        <div>
+            <h1 data-aos="fade-up">Hi, I'm <span>Rendy Wijaya Pranata</span></h1>
+            <p data-aos="fade-up" data-aos-delay="200">Web Developer | SMKN 1 Ciomas XI PPLG 1</p>
+
+            <div class="skills" data-aos="fade-up" data-aos-delay="250">
+
+                <div class="skill">HTML</div>
+        <div class="skill">CSS</div>
+        <div class="skill">JavaScript</div>
+        <div class="skill">React.js</div>
+        <div class="skill">Bootstrap</div>
+        <div class="skill">Tailwind CSS</div>
+        <div class="skill">PHP Native</div>
+        <div class="skill">Laravel</div>
+        <div class="skill">Node.js</div>
+        <div class="skill">Express.js</div>
+        <div class="skill">MySQL</div>
+        <div class="skill">MongoDB</div>
+        <div class="skill">REST API</div>
+        <div class="skill">Midtrans Payment Gateway</div>
+        <div class="skill">VS Code</div>
+        <div class="skill">Laragon</div>
+        <div class="skill">Git & GitHub</div>
+            <div class="skill">Postman</div>
+            </div>
+
+            <div class="card-box" data-aos="fade-up" data-aos-delay="300" style="max-width:700px; margin-top:25px;">
+                <p style="color:#cbd5e1; font-size:15px; line-height:1.8;">
+
+            I am also learning and developing my skills in 
+            <b>Full Stack Web Development</b> using 
+            <b>React.js</b> for frontend and <b>Node.js + Express</b> for backend, 
+            as well as <b>MongoDB</b> for the database.
+
+            <br><br>
+
+            Additionally, I am familiar with tools like <b>VS Code</b> and <b>Laragon</b> 
+            for local development, as well as frameworks like <b>Bootstrap</b> and 
+            <b>Tailwind CSS</b> for building modern, responsive, and efficient interfaces.
+        </p>
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ABOUT + STATS + WHAT I DO (3 KOLOM) -->
+<section id="about">
+    <h2 data-aos="fade-right">Overview</h2>
+
+    <div class="three-col-section" data-aos="fade-up">
+
+        <!-- About Me -->
+        <div class="col-card">
+            <h3><i class="fas fa-user"></i> About Me</h3>
+            <p>
+                I am <b>Rendy Wijaya Pranata</b>, a student from <b>SMKN 1 Ciomas</b> majoring in <b>XI PPLG 1</b>.
+                I focus on Web Development and am currently deepening my knowledge in HTML, CSS, JavaScript, and Laravel.
+            </p>
+        </div>
+
+        <!-- My Stats -->
+        <div class="col-card">
+            <h3><i class="fas fa-chart-line"></i> My Stats</h3>
+            <div class="stat-item">
+                <i class="fas fa-fire"></i>
+                <span>1 Projects Completed</span>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-bolt"></i>
+                <span>2+ Years Learning</span>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-laptop-code"></i>
+                <span>Fullstack Developer</span>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-code-branch"></i>
+                <span>Active on GitHub</span>
+            </div>
+        </div>
+
+        <!-- What I Do -->
+        <div class="col-card">
+            <h3><i class="fas fa-briefcase"></i> What I Do</h3>
+            <p>
+                <b>Frontend Development</b> — Building modern, responsive, and interactive UI.
+                <br><br>
+                <b>Backend Development</b> — Building API systems, databases, and application logic.
+                <br><br>
+                <b>Fullstack App</b> — Working on projects from frontend to backend end-to-end.
+            </p>
+        </div>
+
+    </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="project">
+    <h2 data-aos="fade-right">Projects</h2>
+
+    <div class="slider-wrapper" data-aos="fade-up">
+
+        <div class="slider-container">
+            <div class="slider-track" id="sliderTrack">
+
+<div class="slide" onclick="openProjectModal(5)">
+    <div class="card">
+        <h3>Laptop Store Website</h3>
+        <p>
+            Modern e-commerce platform for selling laptops and accessories:
+            <br>✔ Product Catalog Management
+            <br>✔ Shopping Cart & Secure Checkout
+            <br>✔ Order Tracking System
+            <br>✔ Customer Account Dashboard
+            <br>✔ Admin Panel for Product & Order Management
+        </p>
+    </div>
+</div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+    <h2 data-aos="fade-right">Contact</h2>
+
+    <div style="max-width:600px;">
+        <input type="text" id="nama" placeholder="Name">
+        <input type="email" id="email" placeholder="Email">
+        <textarea id="pesan" placeholder="Message"></textarea>
+
+        <button id="btnKirim" onclick="kirimEmail()">Send</button>
+        <p id="statusMsg" style="margin-top:10px; font-size:14px;"></p>
+    </div>
+</section>
+<!-- FOOTER -->
+<footer class="footer">
+
+    <h3>Rendy Wijaya Pranata</h3>
+    <p>Fullstack Web Developer</p>
+
+    <div class="socials">
+
+        <a href="https://www.instagram.com/renrendy/" target="_blank" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+        </a>
+
+        <a href="https://wa.me/6285880012936" target="_blank" aria-label="WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+
+        <a href="mailto:rendiwijayapranata2211@gmail.com" aria-label="Email">
+            <i class="fas fa-envelope"></i>
+        </a>
+    </div>
+
+    <p class="copy">© 2026 Rendy Wijaya Pranata</p>
+
+</footer>
+
+<!-- PROJECT MODAL -->
+<div id="projectModal" class="project-modal">
+    <div class="project-modal-content">
+        <span class="close" onclick="closeProjectModal()">&times;</span>
+        <h3 id="projectModalTitle"></h3>
+        <div id="projectModalBody"></div>
+    </div>
+</div>
+
+<!-- CV MODAL -->
+<div id="cvModal" class="cv-modal">
+    <div class="cv-content">
+
+        <!-- tombol close -->
+        <span class="close" onclick="closeCV()">&times;</span>
+
+        <!-- preview CV -->
+        <iframe src="CV-Nabil-Al-Kaysan.pdf" title="Preview CV"></iframe>
+
+        <!-- tombol download -->
+        <a href="#" onclick="downloadCV(); return false;" class="download-btn">
+            <i class="fas fa-download"></i> Download CV
+        </a>
+
+    </div>
+</div>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="js/script.js"></script>
+
+</body>
+</html>

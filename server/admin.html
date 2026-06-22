@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin - Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body{ padding:24px; }
+    .wrap{ max-width:980px; margin:0 auto; }
+    .panel{ background: rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.12); border-radius:18px; padding:18px; box-shadow: 0 10px 26px rgba(0,0,0,.18); }
+    label{ display:block; margin:12px 0 6px; font-weight:600; color: rgba(255,255,255,.9); }
+    input, textarea, select{ width:100%; padding:12px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.10); background: rgba(255,255,255,.03); color: rgba(255,255,255,.92); }
+    textarea{ min-height:120px; }
+    button{ padding:12px 16px; border-radius:12px; border:1px solid rgba(255,255,255,.14); background: rgba(255,255,255,.06); color: rgba(255,255,255,.95); font-weight:700; cursor:pointer; }
+    button:hover{ border-color: rgba(96,165,250,.45); background: rgba(96,165,250,.12); }
+    .row{ display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
+    @media(max-width:768px){ .row{ grid-template-columns: 1fr; } }
+    .project-item{ border:1px solid rgba(255,255,255,.10); background: rgba(255,255,255,.03); border-radius:16px; padding:14px; margin-top:12px; }
+    .project-item h4{ margin:0 0 10px; }
+    .btn-row{ display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
+    .muted{ color: rgba(255,255,255,.65); font-size:13px; line-height:1.4; }
+    .error{ color: #f87171; margin-top:10px; }
+    .hidden{ display:none; }
+    code{ background: rgba(255,255,255,.06); padding:2px 6px; border-radius:10px; border:1px solid rgba(255,255,255,.10); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1 style="margin-bottom:12px; color: rgba(255,255,255,.95);">Admin Dashboard Portfolio</h1>
+
+    <div id="loginPanel" class="panel">
+      <h2 style="margin-top:0;">Login</h2>
+      <label>Admin Password</label>
+      <div style="display:flex; gap:10px; align-items:center;">
+        <input id="adminPass" type="password" placeholder="Password admin" style="flex:1;" />
+        <button type="button" onclick="togglePass()" style="width:56px;">👁️</button>
+      </div>
+
+      <div class="btn-row">
+        <button onclick="login()">Login</button>
+      </div>
+      <div id="loginError" class="error"></div>
+    </div>
+
+    <div id="appPanel" class="panel hidden" style="margin-top:16px;">
+      <div class="btn-row" style="justify-content:space-between;">
+        <div>
+          <h2 style="margin:0 0 6px;">Editor Site Data</h2>
+          <div class="muted">Kamu bisa edit hero, about, dan daftar project. Lalu klik <b>Simpan</b>.</div>
+        </div>
+        <button onclick="logout()" style="background: rgba(255,255,255,.04);">Logout</button>
+      </div>
+
+      <hr style="border:none; border-top:1px solid rgba(255,255,255,.10); margin:16px 0;" />
+
+      <h3>Hero</h3>
+      <div class="row">
+        <div>
+          <label>Nama</label>
+          <input id="heroName" />
+        </div>
+        <div>
+          <label>Role/Tagline</label>
+          <input id="heroRole" />
+        </div>
+      </div>
+
+      <label>Skills (1 per baris)</label>
+      <textarea id="heroSkillsLines" placeholder="HTML\nCSS\nJavaScript\nReact.js"></textarea>
+
+      <label>Deskripsi (HTML)</label>
+      <textarea id="heroDescHtml"></textarea>
+
+
+      <hr style="border:none; border-top:1px solid rgba(255,255,255,.10); margin:16px 0;" />
+
+      <h3>About</h3>
+      <div>
+        <label>About Me Paragraph (HTML)</label>
+        <textarea id="aboutParagraphHtml"></textarea>
+      </div>
+
+      <div>
+        <label>What I Do Paragraph (HTML)</label>
+        <textarea id="whatIdoParagraphHtml"></textarea>
+      </div>
+
+      <hr style="border:none; border-top:1px solid rgba(255,255,255,.10); margin:16px 0;" />
+
+      <h3>Projects</h3>
+      <div class="btn-row">
+        <button onclick="addProject()">Tambah Project</button>
+        <button onclick="renderProjectItems()" style="opacity:.9;">Refresh Form</button>
+      </div>
+
+      <div id="projectsContainer"></div>
+
+      <hr style="border:none; border-top:1px solid rgba(255,255,255,.10); margin:16px 0;" />
+
+      <h3>Footer</h3>
+      <div class="row">
+        <div>
+          <label>Nama Footer</label>
+          <input id="footerName" />
+        </div>
+        <div>
+          <label>Role Footer</label>
+          <input id="footerRole" />
+        </div>
+      </div>
+      <div>
+        <label>Copy</label>
+        <input id="footerCopy" />
+      </div>
+
+      <div class="btn-row" style="margin-top:18px;">
+        <button onclick="saveAll()">Simpan</button>
+        <button onclick="loadAll()" style="background: rgba(255,255,255,.04);">Reload Data</button>
+      </div>
+
+      <div id="saveStatus" class="muted" style="margin-top:12px;"></div>
+      <div id="saveError" class="error"></div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = 'http://localhost:3000';
+
+    let state = null;
+    let token = null;
+
+    const $ = (id) => document.getElementById(id);
+
+    function authHeader() {
+      return { 'Authorization': 'Bearer ' + token };
+    }
+
+    function togglePass(){
+      const input = $('adminPass');
+      if(!input) return;
+      const isText = input.type === 'text';
+      input.type = isText ? 'password' : 'text';
+    }
+
+    async function login() {
+
+      $('loginError').textContent = '';
+      token = $('adminPass').value.trim();
+      if (!token) {
+        $('loginError').textContent = 'Password tidak boleh kosong.';
+        return;
+      }
+      try {
+        // test auth by requesting admin data
+        const res = await fetch(API_BASE + '/api/admin/site-data', { headers: authHeader() });
+        if (!res.ok) {
+          const j = await res.json().catch(()=>({}));
+          throw new Error(j.message || 'Login gagal');
+        }
+        state = await res.json();
+        $('loginPanel').classList.add('hidden');
+        $('appPanel').classList.remove('hidden');
+        populateForm();
+        renderProjectItems();
+      } catch (e) {
+        $('loginError').textContent = e.message;
+      }
+    }
+
+    function logout() {
+      token = null;
+      state = null;
+      $('loginPanel').classList.remove('hidden');
+      $('appPanel').classList.add('hidden');
+      $('adminPass').value = '';
+      $('saveError').textContent = '';
+      $('saveStatus').textContent = '';
+
+      try{ localStorage.removeItem('admin_token'); }catch(_){ /* ignore */ }
+    }
+
+
+    async function loadAll() {
+      $('saveStatus').textContent = 'Memuat data...';
+      $('saveError').textContent = '';
+      try {
+        const res = await fetch(API_BASE + '/api/admin/site-data', { headers: authHeader() });
+        if (!res.ok) throw new Error('Gagal load data admin');
+        state = await res.json();
+        populateForm();
+        renderProjectItems();
+        $('saveStatus').textContent = 'Data berhasil dimuat.';
+      } catch (e) {
+        $('saveError').textContent = e.message;
+        $('saveStatus').textContent = '';
+      }
+    }
+
+    function populateForm() {
+      if (!state) return;
+      $('heroName').value = state.hero?.name || '';
+      $('heroRole').value = state.hero?.role || '';
+
+      // skills lines
+      $('heroSkillsLines').value = Array.isArray(state.hero?.skills)
+        ? state.hero.skills.join('\n')
+        : '';
+
+      $('heroDescHtml').value = state.hero?.descriptionHtml || '';
+
+
+      $('aboutParagraphHtml').value = state.about?.aboutParagraphHtml || '';
+      $('whatIdoParagraphHtml').value = state.about?.whatIdoParagraphHtml || '';
+
+      $('footerName').value = state.footer?.name || '';
+      $('footerRole').value = state.footer?.role || '';
+      $('footerCopy').value = state.footer?.copy || '';
+    }
+
+    function syncFormToState() {
+      if (!state) state = {};
+      const skillsLines = ($('heroSkillsLines').value || '')
+        .split('\n')
+        .map(s => s.trim())
+        .filter(Boolean);
+
+      state.hero = {
+        ...(state.hero || {}),
+        name: $('heroName').value,
+        role: $('heroRole').value,
+        skills: skillsLines,
+        descriptionHtml: $('heroDescHtml').value
+      };
+
+      state.about = {
+        ...(state.about || {}),
+        aboutParagraphHtml: $('aboutParagraphHtml').value,
+        whatIdoParagraphHtml: $('whatIdoParagraphHtml').value
+      };
+
+      state.footer = {
+        ...(state.footer || {}),
+        name: $('footerName').value,
+        role: $('footerRole').value,
+        copy: $('footerCopy').value
+      };
+
+      if (!Array.isArray(state.projects)) state.projects = [];
+
+      // projects sync is done from each item input inside renderProjectItems
+      const items = document.querySelectorAll('[data-project-idx]');
+      items.forEach((el) => {
+        const idx = Number(el.getAttribute('data-project-idx'));
+        const title = el.querySelector('.p-title').value;
+        const stack = el.querySelector('.p-stack').value;
+        const desc = el.querySelector('.p-desc').value;
+        const featuresText = el.querySelector('.p-features').value;
+        const features = featuresText
+          .split('\n')
+          .map(s => s.trim())
+          .filter(Boolean);
+
+        state.projects[idx] = {
+          ...(state.projects[idx] || {}),
+          title,
+          stack,
+          desc,
+          features
+        };
+      });
+
+      return state;
+    }
+
+    function renderProjectItems() {
+      if (!state) return;
+      const container = $('projectsContainer');
+      container.innerHTML = '';
+
+      state.projects.forEach((p, idx) => {
+        const div = document.createElement('div');
+        div.className = 'project-item';
+        div.setAttribute('data-project-idx', String(idx));
+        div.innerHTML = `
+          <h4>Project #${idx + 1}</h4>
+          <div class="row">
+            <div>
+              <label>Title</label>
+              <input class="p-title" value="${escapeHtml(p.title || '')}">
+            </div>
+            <div>
+              <label>Stack</label>
+              <input class="p-stack" value="${escapeHtml(p.stack || '')}">
+            </div>
+          </div>
+          <label>Description</label>
+          <textarea class="p-desc">${escapeHtml(p.desc || '')}</textarea>
+          <label>Features (1 per line)</label>
+          <textarea class="p-features">${escapeHtml((p.features || []).join('\n'))}</textarea>
+          <div class="btn-row">
+            <button type="button" onclick="removeProject(${idx})" style="background: rgba(255,255,255,.04); border-color: rgba(248,113,113,.35); color:#fecaca;">Hapus</button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function addProject() {
+      if (!state) state = { projects: [] };
+      if (!Array.isArray(state.projects)) state.projects = [];
+      state.projects.push({ title: '', stack: '', desc: '', features: [] });
+      renderProjectItems();
+    }
+
+    function removeProject(idx) {
+      if (!state || !Array.isArray(state.projects)) return;
+      state.projects.splice(idx, 1);
+      renderProjectItems();
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '<')
+        .replaceAll('>', '>')
+        .replaceAll('"', '"')
+        .replaceAll("'", '&#039;');
+    }
+
+    async function saveAll() {
+      $('saveError').textContent = '';
+      $('saveStatus').textContent = 'Menyimpan...';
+      try {
+        syncFormToState();
+        const res = await fetch(API_BASE + '/api/admin/site-data', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', ...authHeader() },
+          body: JSON.stringify(state)
+        });
+        if (!res.ok) {
+          const j = await res.json().catch(()=>({}));
+          throw new Error(j.message || 'Gagal simpan');
+        }
+        $('saveStatus').textContent = 'Simpan berhasil. Silakan refresh index.html untuk melihat perubahan.';
+      } catch (e) {
+        $('saveError').textContent = e.message;
+        $('saveStatus').textContent = '';
+      }
+    }
+
+    // initial load after login
+    window.onload = function() {
+      // allow quick open if token stored (optional)
+      const saved = localStorage.getItem('admin_token');
+      if (saved) {
+        token = saved;
+        $('loginPanel').classList.add('hidden');
+        $('appPanel').classList.remove('hidden');
+        loadAll();
+      }
+    };
+
+    // store token after successful login
+    const _login = login;
+    login = async function(){
+      await _login();
+      if(token){ localStorage.setItem('admin_token', token); }
+    };
+
+  </script>
+</body>
+</html>
+

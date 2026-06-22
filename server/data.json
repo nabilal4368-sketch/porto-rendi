@@ -1,0 +1,69 @@
+{
+  "hero": {
+    "name": "Rendy Wijaya Pranata",
+    "role": "Web Developer | SMKN 1 Ciomas XI PPLG 1",
+    "skills": ["HTML","CSS","JavaScript","React.js","Bootstrap","Tailwind CSS","PHP Native","Laravel","Node.js","Express.js","MySQL","MongoDB","REST API","Midtrans Payment Gateway","VS Code","Laragon","Git & GitHub","Postman"],
+    "descriptionHtml": "I am also learning and developing my skills in <b>Full Stack Web Development</b> using <b>React.js</b> for frontend and <b>Node.js + Express</b> for backend, as well as <b>MongoDB</b> for the database.<br><br>Additionally, I am familiar with tools like <b>VS Code</b> and <b>Laragon</b> for local development, as well as frameworks like <b>Bootstrap</b> and <b>Tailwind CSS</b> for building modern, responsive, and efficient interfaces."
+  },
+  "about": {
+    "aboutTitle": "About Me",
+    "aboutParagraphHtml": "I am <b>Rendy Wijaya Pranata</b>, a student from <b>SMKN 1 Ciomas</b> majoring in <b>XI PPLG 1</b>. I focus on Web Development and am currently deepening my knowledge in HTML, CSS, JavaScript, and Laravel.",
+    "statsTitle": "My Stats",
+    "stats": [
+      {
+        "icon": "fa-fire",
+        "label": "1 Projects Completed"
+      },
+      {
+        "icon": "fa-bolt",
+        "label": "2+ Years Learning"
+      },
+      {
+        "icon": "fa-laptop-code",
+        "label": "Fullstack Developer"
+      },
+      {
+        "icon": "fa-code-branch",
+        "label": "Active on GitHub"
+      }
+    ],
+    "whatIdoTitle": "What I Do",
+    "whatIdoParagraphHtml": "<b>Frontend Development</b> — Building modern, responsive, and interactive UI.<br><br><b>Backend Development</b> — Building API systems, databases, and application logic.<br><br><b>Fullstack App</b> — Working on projects from frontend to backend end-to-end."
+  },
+  "projects": [
+    {
+      "title": "Luxora Olshop",
+      "stack": "PHP Native, MySQL, HTML, CSS, JavaScript",
+      "desc": "Simple E-Commerce based on PHP Native with product management system, shopping cart, checkout, product image upload, as well as order and transaction system.",
+      "features": [
+        "Product CRUD (Create, Read, Update, Delete)",
+        "Cart & Checkout",
+        "Product Image Upload",
+        "Order & Transaction System",
+        "Inventory management"
+      ]
+    }
+  ],
+  "footer": {
+    "name": "Rendy Wijaya Pranata",
+    "role": "Fullstack Web Developer",
+    "socials": [
+      {
+        "type": "instagram",
+        "label": "Instagram",
+        "href": "https://www.instagram.com/renrendy/"
+      },
+      {
+        "type": "whatsapp",
+        "label": "WhatsApp",
+        "href": "https://wa.me/6285880012936"
+      },
+      {
+        "type": "email",
+        "label": "Email",
+        "href": "mailto:rendiwijayapranata2211@gmail.com"
+      }
+    ],
+    "copy": "© 2026 Rendy Wijaya Pranata"
+  }
+}
