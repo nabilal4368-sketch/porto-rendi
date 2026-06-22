@@ -189,6 +189,10 @@ app.get('/test', (req, res) => {
   res.send('SERVER HIDUP');
 });
 
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'index.html'));
+});
+
 app.listen(PORT, () => {
   console.log(`Admin backend running on http://localhost:${PORT}`);
 });
