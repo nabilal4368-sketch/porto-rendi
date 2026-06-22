@@ -180,6 +180,15 @@ app.use(express.static(__dirname));
 app.use(express.static(path.join(__dirname, '..')));
 
 
+// serve index.html/assets (public) and admin.html from /server
+app.use(express.static(__dirname));
+app.use(express.static(path.join(__dirname, '..')));
+
+// TEST ROUTE
+app.get('/test', (req, res) => {
+  res.send('SERVER HIDUP');
+});
+
 app.listen(PORT, () => {
   console.log(`Admin backend running on http://localhost:${PORT}`);
 });
