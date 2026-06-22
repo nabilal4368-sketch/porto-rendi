@@ -7,7 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css" />
   <style>
-    body{ padding:24px; }
+body{ padding:24px; background: radial-gradient(1200px 700px at 10% -10%, rgba(96,165,250,.22), transparent 55%), radial-gradient(900px 600px at 90% 0%, rgba(59,130,246,.18), transparent 50%), linear-gradient(180deg, #0b1220 0%, #111827 100%); color: rgba(255,255,255,.92); overflow-x:hidden; }
     .wrap{ max-width:980px; margin:0 auto; }
     .panel{ background: rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.12); border-radius:18px; padding:18px; box-shadow: 0 10px 26px rgba(0,0,0,.18); }
     label{ display:block; margin:12px 0 6px; font-weight:600; color: rgba(255,255,255,.9); }
@@ -274,10 +274,11 @@
       return state;
     }
 
-    function renderProjectItems() {
+function renderProjectItems() {
       if (!state) return;
       const container = $('projectsContainer');
       container.innerHTML = '';
+
 
       state.projects.forEach((p, idx) => {
         const div = document.createElement('div');
@@ -328,6 +329,9 @@
         .replaceAll('"', '"')
         .replaceAll("'", '&#039;');
     }
+
+
+
 
     async function saveAll() {
       $('saveError').textContent = '';
