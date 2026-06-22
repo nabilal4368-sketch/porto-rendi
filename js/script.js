@@ -146,7 +146,7 @@ function setSliderPosition(){
 let projectData = [];
 
 let siteDataLoaded = false;
-const ADMIN_BACKEND_BASE = 'http://localhost:3000';
+const ADMIN_BACKEND_BASE = 'https://porto-rendi-production.up.railway.app';
 
 async function loadSiteData(){
     try{

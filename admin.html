@@ -126,10 +126,14 @@ body{ padding:24px; background: radial-gradient(1200px 700px at 10% -10%, rgba(9
   </div>
 
   <script>
-    const API_BASE = 'https://porto-rendi-production.up.railway.app';
+  const API_BASE = 'https://porto-rendi-production.up.railway.app';
 
     let state = null;
     let token = null;
+
+    // cleanup any previous token (so UI never bypasses login)
+    try{ localStorage.removeItem('admin_token'); }catch(_){ /* ignore */ }
+
 
     const $ = (id) => document.getElementById(id);
 
@@ -354,23 +358,21 @@ function renderProjectItems() {
       }
     }
 
-    // initial load after login
+    // Always require login on every open.
+    // If token is stored, we will NOT auto-open the editor panel.
     window.onload = function() {
-      // allow quick open if token stored (optional)
-      const saved = localStorage.getItem('admin_token');
-      if (saved) {
-        token = saved;
-        $('loginPanel').classList.add('hidden');
-        $('appPanel').classList.remove('hidden');
-        loadAll();
-      }
+      // Ensure default UI
+      $('loginPanel').classList.remove('hidden');
+      $('appPanel').classList.add('hidden');
     };
 
-    // store token after successful login
+    // store token after successful login (but won't auto-open UI)
     const _login = login;
     login = async function(){
       await _login();
-      if(token){ localStorage.setItem('admin_token', token); }
+      if(token){
+        localStorage.setItem('admin_token', token);
+      }
     };
 
   </script>
